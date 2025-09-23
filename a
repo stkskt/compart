@@ -1,0 +1,32 @@
+SELECT LOWER(first_name) FROM hr.employees;
+
+SELECT LOWER ('first_NamE') FROM dual;
+
+SELECT UPPER(first_name) FROM hr.employees;
+
+SELECT initcap(first_name) FROM hr.employees;
+
+SELECT last_name, LENGTH (last_name) AS "largo" FROM hr.employees ORDER BY "largo";
+
+SELECT last_name, substr (last_name, 2) FROM hr.employees;
+
+SELECT last_name, substr (last_name, 4) FROM hr.employees;
+
+SELECT first_name, instr (first_name, 'e') FROM hr.employees;
+
+SELECT REPLACE ('Steve', 'e','i') FROM dual;
+
+SELECT CONCAT (first_name, last_name) FROM hr.employees;
+
+SELECT first_name ||' '|| last_name AS "nombre completo" FROM hr.employees;
+
+SELECT MAX(salary) FROM hr.employees;
+
+SELECT MAX(salary), MIN(salary), AVG(salary) FROM hr.employees;
+
+SELECT last_name, lpad(employee_id,6,'0') AS "id empleados" FROM hr.employees;
+
+SELECT last_name, rpad(employee_id,6,'-') AS "id empleados" FROM hr.employees;
+
+SELECT last_name, first_name, soundex(last_name) AS "soundex_cod"
+FROM hr.employees WHERE soundex(last_name) = soundex('smith');
