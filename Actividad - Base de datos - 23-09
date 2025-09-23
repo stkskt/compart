@@ -1,0 +1,72 @@
+/*EJERCICIOS PRACTICA - CLIMA Y LOCALIZACION*/
+
+--Mostrar los nombres de las ciudades en mayúsculas.
+
+select upper(ciudad) from clima;
+
+--Mostrar los nombres de las ciudades en minúsculas.
+
+select lower(ciudad) from clima;
+
+--Mostrar los nombres de las ciudades con la primera en mayúscula (capital).
+
+select initcap(ciudad) from clima;
+
+--Obtener las primeras 3 letras de cada ciudad.
+
+select substr(ciudad,1,3) from clima;
+
+--Obtener las dos últimas letras del país.
+
+select substr(ciudad,-2,2) from clima;
+
+--Eliminar la letra ‘A’ al inicio de los países (si es que existe)
+
+select ltrim(pais,'A') as pais_sin_a from localizacion;
+
+--Eliminar la letra ‘A’ al final de los continentes
+
+select rtrim(pais,'A') as pais_sin_a from localizacion;
+
+--Reemplazar nublado por Cubierto.
+
+select replace(estado,'NUBLADO','Cubierto') from clima;
+
+--Reemplazar Europa por UE
+
+describe localizacion;
+describe clima;
+select replace(continente,'EUROPA','UE') from localizacion;
+
+--Concatena ciudad y país.
+
+select ciudad||' - '||pais as "CIUDAD_PAIS" from localizacion;
+
+--Concatena temperatura y humedad.
+
+select 'temp: ' ||temperatura||' - '||'hum: '||humedad as "TEMP-HUMEDAD" from clima;
+
+--Verificar el código fonético de las ciudades
+
+select ciudad, soundex(ciudad) from clima;
+
+--Comparar ciudades con fonética similar a Madrid
+
+select ciudad from localizacion where soundex(ciudad) = soundex('madrid');
+
+--Buscar la posición de la letra 'A' en cada ciudad
+
+select ciudad, instr(ciudad, 'A') as posc_a_ciudad from clima;
+
+--Buscar la posición de 'IA' dentro del país
+
+select ciudad, instr(ciudad, 'IA') as posc_a_ciudad from clima;
+select ciudad, instr(ciudad, 'IC') as posc_a_ciudad from localizacion;
+
+--Longitud del nombre de cada ciudad
+
+select ciudad, length (ciudad) as largo from localizacion;
+
+--Longitud del continente
+
+select continente, length (continente) as largo from localizacion;
