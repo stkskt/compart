@@ -1,0 +1,101 @@
+--ACTIVIDADES
+
+--SUMAR Meses
+select add_months (fechacelebrada, 6) "Dia del festin" from FIESTA
+where fiesta = 'DIA DEL TRABAJO';
+
+--RESTAR MESES
+select add_months(to_date('25/02/2020','DD/MM/YYYY'),-1) "UN MES ANTES" FROM dual;
+
+--COMPARACION DE FECHAS
+SELECT FIESTA, LEAST(FECHAACTUAL, FECHACELEBRADA) "FECHA TARDIA", GREATEST(FECHAACTUAL, FECHACELEBRADA) "FECHA RECIENTE", FECHAACTUAL, FECHACELEBRADA FROM FIESTA
+WHERE FECHAACTUAL - FECHACELEBRADA !=0;
+
+--TRAER EL SIGUIENTE DIA
+select next_day(fecha,'Viernes') "Dia de pago"
+from diapago;
+
+select next_day(fecha-1,'Viernes') "Dia de pago"
+from diapago;
+
+--Traer ultimo dia del mes
+select last_day(fecha)"fin de mes" from diapago;
+
+--Cuantos meses hay entre dos fechas MONTHS_BETWEEN
+select NOMBRE, APELLIDO, FECHANACIMIENTO, EDAD,
+    MONTHS_BETWEEN(sysdate, FECHANACIMIENTO)/12 "Edad actual"
+from CUMPLEANOS;
+
+--Redondeado
+select NOMBRE, APELLIDO, FECHANACIMIENTO, EDAD,
+    round(MONTHS_BETWEEN(sysdate, FECHANACIMIENTO)/12) "Edad actual"
+from CUMPLEANOS;
+
+--combinacion de funciones de fecha
+select sysdate "Hoy", last_day(add_months(sysdate,6))+1 "REVISION"
+FROM DUAL;
+
+--round y trunc en calculos de fecha
+select to_date('MAÑANA') - sysdate "RESTA" FROM DUAL;
+
+select to_date('15-10-2025') - sysdate "resta" from dual;
+
+select to_date('01-10-25') - (sysdate) "Resta" from dual;
+
+--FORMATEO CON TO_DATE Y TO_CHAR
+SELECT FECHANACIMIENTO, TO_CHAR(FECHANACIMIENTO, 'MM/DD/YYYY') "Formateado"
+FROM CUMPLEANOS
+WHERE NOMBRE = 'VICTORIA';
+
+SELECT FECHANACIMIENTO, TO_CHAR(FECHANACIMIENTO, 'YYMM>DD') "Formateado"
+FROM CUMPLEANOS
+WHERE NOMBRE = 'VICTORIA';
+
+SELECT FECHANACIMIENTO, TO_CHAR(FECHANACIMIENTO, 'Month, DDth "in, um, "YyyY') "Formateado"
+FROM CUMPLEANOS
+WHERE NOMBRE = 'VICTORIA';
+
+SELECT FECHANACIMIENTO, TO_CHAR(FECHANACIMIENTO, 'Month, DD, year') "Formateado"
+FROM CUMPLEANOS
+WHERE NOMBRE = 'VICTORIA';
+
+--calcula con to_date
+select to_date('22-feb-2020', 'dd-mm-yy') "Fecha" from dual;
+
+select to_char(to_date('19-jul-2025'),'day') "Dia" from dual;
+
+--Fechas en las clausulas where
+select Fiesta, fechanacimiento from fiesta
+where fechacelebrada between '01-06-24' and '26-09-24';
+
+--extraer el año de una fecha
+select extract (year from sysdate) from dual;
+
+select extract (year from sysdate) - extract (year from to_date('01-01-2010')) "Resta de años" from dual;
+
+/*  EJERCICIOS DUAL   */
+
+-- año fecha nacimiento - año fecha sysdate (actual) 
+select extract (year from to_date ('19-07-2004')) - extract (year from sysdate) "fecha nacimiento - sysdate" from dual;
+select extract (year from sysdate) - extract (year from to_date ('19-07-2004')) "fecha nacimiento - sysdate" from dual;
+
+--suma 3 meses a sydate
+select add_months(sysdate,3) "Hoy +3 meses" from dual;
+
+--siguiente martes de la fecha actual
+
+select next_day(sysdate-1, 'Martes') "Martes siguiente" from dual;
+select next_day(sysdate, 'Martes') "Martes siguiente" from dual;
+
+-- resta 3 meses a la fecha actual
+select add_months(sysdate,-3) "Hoy -3 meses" from dual;
+
+-- comparar fechas
+ 
+ select least (to_date('20-08-1778','dd-mm-yyyy'),
+ to_Date('03-04-1848','dd-mm-yyyy')) "Fecha antigua" from dual;
+ 
+  select greatest (to_date('20-08-1778','dd-mm-yyyy'),
+ to_Date('03-04-1848','dd-mm-yyyy')) "Fecha antigua" from dual;
+ 
+--
