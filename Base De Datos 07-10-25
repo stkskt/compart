@@ -69,3 +69,43 @@ SELECT LAST_NAME, DEPARTMENT_ID AS "DEPARTAMENTO" FROM HR.EMPLOYEES,
         GROUP BY JOB_ID
         HAVING AVG(MIN_SALARY) >6000;
 
+--Actividad
+--• Muestra el apellido, el salario y el salario multiplicado por la comisión. 
+        select last_name, salary, commission_pct, salary +(salary + nvl(commission_pct,0))
+        total_ingreso from hr.employees
+
+--• Muestra el nombre y apellido de los empleados, el departamento id, cuando el departamento sea 10 escribe ADMINISTRACION, 20 VENTAS y 30 FINANZAS. Usa CASE
+        SELECT first_name ||' '||last_name, department_id,
+        CASE department_id
+            WHEN 10 THEN 'Administracion'
+            WHEN 20 THEN 'Ventas'
+            WHEN 30 THEN 'Finanzas'
+        ELSE 'Otro departamento'
+        END departamento
+        FROM hr.employees ORDER BY departamento;
+        
+/*• Muestra el apellido del empleado y su id de cargo,
+    cuando sea IT_PROG muestra PROGRAMADOR, SA_REP: VENDEDOR, AD_VP: VICEPRESIDENTE, OTRO CARGO. Usa DECODE*/
+        SELECT LAST_NAME, JOB_ID,
+        DECODE(JOB_ID,'IT_PROG','Programador',
+                    'SA_REP','Vendedor',
+                    'AD_VP','Vicepresidente','otro cargo') CARGO
+        FROM HR.EMPLOYEES ORDER BY JOB_ID;
+    
+--• Muestra el salario con signo peso, con 6 dígitos y separador de miles. 
+        SELECT FIRST_NAME, SALARY, TO_CHAR(SALARY,'$999,999')
+        SALARIO_FORMATEADO FROM HR.EMPLOYEES
+
+/*•     Realice una consulta que cumpla con:Muestre el nombre, salario formateado y nivel de sueldo (mas de 10000 ALTO, bajo 10000 BAJO).
+    Reemplace las comisiones nulas con 0.Use CASE o DECODE para clasificar el tipo de trabajo. Convierta el salario a texto formateado (TO_CHAR).
+    Incluya la fecha actual (CURRENT_DATE)*/
+        select current_date fecha_sesion, current_timestamp timestamp_zona, localtimestamp time_local from dual;
+        
+        SELECT LAST_NAME||' '||FIRST_NAME NOMBRE_COMPLETO, TO_CHAR(SALARY,'$999,999') SALARIO,
+        CASE
+            WHEN SALARY > 10000 THEN 'Alto'
+            ELSE 'Bajo' END NIVEL_SALARIO,
+            NVL(COMMISSION_PCT,0) COMISION ,
+        TO_CHAR(CURRENT_DATE,'dd-mm-yyyy') AS FECHA_ACTUAL,
+        DECODE(JOB_ID, 'IT_PROG','Programador', 'SA_REP','Vendedor', 'AD_VP','Vicepresidente', 'Otro Cargo') CARGO
+        FROM HR.EMPLOYEES;
