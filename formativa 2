@@ -1,0 +1,123 @@
+--1)	Presente una consulta que muestre el título y el autor, ambos en mayúscula con sangría a la derecha de 15 caracteres vacíos, desde la tabla LIBRO. (6 puntos) 
+SELECT
+    lPAD(UPPER(titulo), LENGTH(titulo) + 15, '-') AS "TITULO_CON_SANGRIA",
+    lPAD(UPPER(autor), LENGTH(autor) + 15, '-') AS "AUTOR_CON_SANGRIA"
+FROM LIBRO;
+
+
+--2)	Presente una consulta que muestre la fecha de hoy con formato “ Hoy es, x, del mes de X, del año x”, el año  debe ir escrito con los 4 dígitos correspondientes: (6 puntos)
+--select to_char(sysdate, 'Hoy es',DD,'del mes',MONTH,'del año', YYYY) as "Fecha Actual" from dual
+
+select 'Hoy es, ' ||to_char(sysdate,'DD') || ' Del Mes de ' ||to_char(sysdate, 'MONTH')|| ' Del año ' || to_char(sysdate, 'YYYY')
+as "Fecha de Hoy"from dual
+
+
+--3)	Presente una consulta que permite borrar los caracteres espacio y punto de la derecha e izquierda de una cadena de caracteres. (6 puntos)
+--SELECT TRIM(BOTH from(' .  espacios y puntos.  . ')) AS "CADENA_LIMPIA" FROM DUAL;
+--select trim(both ('.',' ') from(' . hola chicos .')) from dual
+
+select ltrim(rtrim(' .  puntos y espacio  . ',' .'),' .') from dual
+
+--4)	Cree una consulta que permita visualizar el sucursal y nombre del encargado en una sola columna con un espacio entre ambos, desde la tabla SUCURSAL. (6 puntos)
+describe sucursal
+select 'Sucursal '||sucursal ||' - '|| nombre_del_encargado as "Encargado de sucursal" from sucursal
+
+
+--5)	Presente una vista que muestre los libros con precio menor a 35.000 (6 puntos)
+create or replace view v_libros as
+select titulo, autor, precio
+from libro
+where precio < 35000
+
+select * from v_libros
+describe libro
+
+--6)	Presente una consulta que muestre el título del libro, el precio y el precio aumentado en un 19%: (6 puntos).
+select titulo, precio, round(precio*1.19) as "Precio + 19%" from libro
+
+--7)	Presente el código que muestra los meses que han transcurrido desde la fecha de su nacimiento hasta ahora.(6 puntos)
+select trunc(months_between(sysdate, to_date('19-07-2004','dd-mm-yyyy'))) as MesesEntre from dual
+
+
+--8)	Presente el código que muestra el día miércoles después del 4 de octubre del 2024. (6 puntos)
+select next_day(to_Date('4-10-2024','dd-mm-yyyy'),'miércoles') from dual
+
+--9)	Presente el código que muestre el último día del mes de la fecha 2 de diciembre del 2021. (6 puntos)
+select last_day(
+SELECT TRIM(BOTH from(' .  Hola Mundo con espacios y puntos.  . ')) AS "CADENA_LIMPIA" FROM DUAL;
+
+select trim(both ('.',' ') from(' . hola chicos .')) from dual
+--4)	Cree una consulta que permita visualizar el sucursal y nombre del encargado en una sola columna con un espacio entre ambos, desde la tabla SUCURSAL. (6 puntos)
+describe sucursal
+
+select 'Sucursal '||sucursal ||' - '|| nombre_del_encargado as "Encargado de sucursal" from sucursal
+
+
+--5)	Presente una vista que muestre los libros con precio menor a 35.000 (6 puntos)
+create or replace view v_libros as
+select titulo, autor, precio
+from libro
+where precio < 35000
+
+select * from v_libros
+describe libro
+
+--6)	Presente una consulta que muestre el título del libro, el precio y el precio aumentado en un 19%: (6 puntos).
+select titulo, precio, (precio*1.19) as "Precio + 19%" from libro
+
+--7)	Presente el código que muestra los meses que han transcurrido desde la fecha de su nacimiento hasta ahora.(6 puntos)
+select trunc(months_between(sysdate, to_date('19-07-2004','dd-mm-yyyy'))) as MesesEntre from dual
+
+
+--8)	Presente el código que muestra el día miércoles después del 4 de octubre del 2024. (6 puntos)
+select next_day(to_Date('4-10-2024','dd-mm-yyyy'),'miércoles') from dual
+--10)	Presente el código que muestra la edad de la persona nacida un 5 de junio de 1986. (6 puntos)
+select trunc((months_between(sysdate, to_date('05-06-1986','dd-mm-yyyy')))/12) from dual
+
+--11)	Presente el código que muestre el resultado de la operación de (8*8597,45) redondeado con dos decimales y truncado sin decimales.
+select round(8*(8597.45),2) as Redondeado, trunc(8*8597.45) as "Sin decimales" from dual
+
+--12)	Presente un código que muestre el titulo y el IDEditorial,
+--realice una condicional para la consulta y cuando el IDEditorial sea = 4 que escriba ZIGZAG,
+--cuando sea = 2 que escriba PLANETA, y cuando sea cualquier otro número escriba: OTRA EDITORIAL.
+--Debe hacer la consulta para la tabla LIBRO.
+select titulo, ideditorial,
+    case ideditorial
+        when 4 then 'ZIGZAG'
+        when 2 then 'PLANETA'
+        else 'OTRA EDITORIAL'
+    end as "Nombre Editorial"
+from libro
+
+describe libro
+select * from libro
+
+--13)	Presente un código que muestre Nombre del libro, editorial y los agrupo por editorial.
+select L.titulo as "Nombre del libro", E.Editorial as "Nombre Editorial"
+from libro L
+inner join editorial E
+    on L.ideditorial = E.ideditorial
+    order by "Nombre Editorial"
+
+--14)	Presente un código que muestre el nombre del libro y el nombre de la editorial.  (Solo debe mostrar los datos indicados en esta instrucción.
+select L.titulo as "Nombre del libro", E.Editorial as "Nombre Editorial"
+from libro L
+inner join editorial E
+    on L.ideditorial = E.ideditorial
+--15)	Presente un código que muestre el nombre del libro, el nombre de la editorial y el nombre del contacto.
+select L.titulo as "Nombre del libro", E.Editorial as "Nombre Editorial", nombre_del_contacto as "Contacto"
+from libro L
+inner join editorial E
+    on L.ideditorial = E.ideditorial
+--16)	Presente un código que muestre el titulo del libro, autor, IDInventario y existencia.
+select titulo, autor, i.idinventario, existencia
+from libro l
+inner join inventario i
+    on l.idlibro = i.idlibro
+--17)	Presente un código que muestre el libro, autor y editorial.
+select titulo, autor, editorial
+from libro l
+inner join editorial e
+    on l.ideditorial = e.ideditorial
+
+
