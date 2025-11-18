@@ -1,0 +1,128 @@
+create role rol_consultor;
+create table libro (id number, nombre varchar2(20));
+grant select on libro to rol_consultor;
+grant insert on libro to rol_consultor;
+
+create user esepulveda identified by 123456;
+revoke insert on libro from rol_consultor;
+
+create table prueba (v_id number, v_nombre varchar2(30));
+
+SET SERVEROUTPUT ON;
+CREATE OR REPLACE PROCEDURE INSERT_PRUEBA (V_ID IN NUMBER, V_NOMBRE IN VARCHAR2)
+IS
+BEGIN
+    INSERT INTO PRUEBA VALUES (V_ID,V_NOMBRE);
+    DBMS_OUTPUT.PUT_LINE ('Registro Exitoso');
+END;
+
+execute insert_prueba(5, 'Luis');
+execute insert_prueba(6, 'María');
+
+select * from prueba;
+
+CREATE OR REPLACE PROCEDURE sumar_numeros (num1 INT,num2 INT)
+IS
+suma INT;
+BEGIN
+    suma:= num1 + num2;
+    dbms_output.put_line('Suma es : '||suma);
+END sumar_numeros;
+
+execute sumar_numeros (10,50);
+
+declare
+    NUM_1 number;
+    NUM_2 number;
+    SUMA_T number;
+begin
+    NUM_1:= &PRIMERO;
+    NUM_2:= &SEGUNDO;
+    
+    SUMA_T:= NUM_1 + NUM_2;
+    DBMS_OUTPUT.PUT_LINE('La suma es :'|| SUMA_T);
+end;
+--& = ampersand
+
+create or replace procedure cadena_reves(v_cadena varchar2)
+as
+vcad_reves varchar2(80);
+begin
+for i in reverse 1.. length(v_cadena) loop
+    vcad_reves := vcad_reves || substr(v_cadena,i,1);
+end loop;
+    dbms_output.put_line(vcad_reves);
+end cadena_reves;
+
+execute cadena_reves('paracetamol');
+
+create or replace procedure pl(cadena varchar2)
+as
+begin
+    dbms_output.put_line(cadena);
+end;
+
+declare
+v_nombre varchar2(20);
+begin
+    SELECT first_name
+    into v_nombre
+    from hr.employees
+    where employee_id = 100;
+    pl('El primer nombre del empleado id 100 es: '|| v_nombre);
+end;
+
+
+--HR
+
+
+
+set serveroutput on;
+create or replace procedure pl(cadena varchar2)
+as
+begin
+    dbms_output.put_line(cadena);
+end;
+
+declare
+v_nombre varchar2(20);
+v_mail varchar2(100);
+begin
+    SELECT first_name, email
+    into v_nombre, v_mail
+    from hr.employees
+    where employee_id = 100;
+    pl('El primer nombre del empleado id 100 es: '|| v_nombre||' Su correo es: '|| v_mail);
+end;
+
+declare 
+nota number := &nota;
+begin
+    if nota>= 50 then
+        pl('Aprobado');
+    else
+        pl('REprobado');
+    end if;
+end;
+
+declare
+    i number := 1;
+begin
+    loop
+        pl('numero '|| i);
+        i := i+1;
+        exit when i > 5;
+    end loop;
+end;
+
+
+
+
+
+
+create table palabras (palabra varchar2(15));
+insert into palabras values ('      chao');
+select length(palabra), palabra from palabras;
+create or replace trigger trim_palabra
+before insert on palabras for each row begin :new.palabra := trim(:New.palabra);
+end;
