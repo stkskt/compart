@@ -37,4 +37,89 @@ End;
     
 crea un procedimiento que permita insertar datos en la tabla oficios
 
+
+drop table OFICIOS;
+create table OFICIOS (id number not null primary key,tipo varchar2(25), descripcion char(80));
+insert into OFICIOS values (1,'LEÑADOR','Cortar, talar, apilar, marcar, arboles');
+insert into OFICIOS values (2,'CONDUCTOR SEGADORA','Conducir, ajustar maquina');
+insert into OFICIOS values (3,'HERRERO','Prepara fuego, cortar, herrar caballos');
+insert into OFICIOS values (4,'PICADOR','Cavar, picar, palear, tapar');
+insert into OFICIOS values (5,'LABRADOR','Aparejar caballos, profundidades de reja');
+insert into OFICIOS values (6,'OBRERO', 'Trabajo en general');
+
+drop table EMPLEADOS;
+create table EMPLEADOS(id number primary key, nombre varchar2(35) not null, edad number, 
+ubicacion varchar2(35), fk_oficio number, constraint fk_oficio foreign key (fk_oficio) references oficios(id));
+insert into EMPLEADOS values (14526362,'DIEGO ALBORNOZ',22,'CRANMER',6);
+insert into EMPLEADOS values (15263547,'DONALD ROLLO',43,'MATTS',4);
+insert into EMPLEADOS values (14789562,'JOHN PEARSON',16,'ROSE HILL',2);
+insert into EMPLEADOS values (16254789,'PAT LAVAY',33,'PAPA KING',1);
+insert into EMPLEADOS values (13254789,'ADAH TALBOT',25,'CRANMER',3);
+insert into EMPLEADOS values (14258741,'PETER LAWSON',27,'NULL',5);
+insert into EMPLEADOS values (14141425,'ROLAND BRANT',41,'MULLER',2);
+insert into EMPLEADOS values (14369685,'WOLFRED LOWELL',null,'PAPA KING',4);
+insert into EMPLEADOS values (17524365,'HELEN BRANDT',18,'ROSE HILL',6);
+insert into EMPLEADOS values (17859142,'ANDREW DYE',67,'MATTS',1);
+insert into EMPLEADOS values (18524362,'WILLING SWING',23,'NULL',3);
+insert into EMPLEADOS values (18254123,'GEORGE OSCAR',29,'null',5);
+
+
+
+
+
+--CREA UN PROCEDIMIENTO QUE PERMITA INSERTAR DATOS EN LA TABLA OFICIOS
+set serveroutput on;
+
+describe oficios;
+select * from oficios;
+
+create or replace procedure insertoficios(
+    p_tipo varchar2,
+    p_desc varchar2)
+as
+begin
+insert into oficios (tipo,descripcion)
+values (p_tipo, p_desc);
+end;
+
+--CREA UN PROCEDIMIENTO QUE PERMITA ELIMINAR UN DATO DE LA TABLA EMPLEADOS ENTREGÁNDOLE EL ID
+create or replace procedure borraremp(
+    p_id number)
+as
+begin
+    delete from empleados
+    where id = p_id;
+    
+    if sql%rowcount = 0 then
+        pl('No existe empleado con el id solicitado');
+    else
+        pl('Empleado eliminado correctamente');
+    End if;
+end;
+
+
+select * from empleados
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     
