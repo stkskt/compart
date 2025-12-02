@@ -1,0 +1,40 @@
+set serveroutput on;
+
+create or replace procedure pl(cadena varchar2)
+as
+begin
+dbms_output.put_line(cadena);
+end;
+
+
+declare
+    v_pais varchar2(20);
+begin
+select country_name
+into v_pais
+from hr.countries
+where country_id ='AR';
+pl('El nombre del pais con ID AR es: '||v_pais);
+end;
+
+declare
+    v_id_emp number(4);
+    v_nombre_emp varchar2(80);
+    v_salario_emp number(10);
+begin
+    v_id_emp := &codigo_empleado;
+    select first_name ||' '|| last_name, salary
+    into v_nombre_emp, v_salario_emp
+    from hr.employees
+    where employee_id = v_id_emp;
+    pl('El empleado '|| v_id_emp || ' ' || v_nombre_emp || ' Posee un salario de $'|| v_salario_emp);
+End;
+--exception
+  --  when NO_DATA_FOUND then
+    --    pl('No se encuentra información del codigo ingresado');
+  --  when others then
+    --    pl('Ocurrió un error: '||SQL);
+    
+crea un procedimiento que permita insertar datos en la tabla oficios
+
+    
